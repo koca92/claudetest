@@ -123,6 +123,7 @@
   function hideOverlay() { overlay.classList.add('hidden'); }
 
   function startGame() {
+    if (waveTransition) return;
     init();
     gameActive = true;
     hideOverlay();
@@ -138,6 +139,7 @@
   }
 
   var lastFireKey = false;
+  var waveTransition = false;
 
   function update(dt) {
     if (!gameActive) return;
@@ -300,8 +302,10 @@
     state.shootInterval = Math.max(500, 1500 - state.wave * 100);
     showOverlay('WAVE ' + state.wave, 'INCOMING!', 'SCORE: ' + state.score);
     gameActive = false;
+    waveTransition = true;
     loop.stop();
     setTimeout(function() {
+      waveTransition = false;
       hideOverlay();
       gameActive = true;
       loop.start();

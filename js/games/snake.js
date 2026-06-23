@@ -49,8 +49,7 @@
       dir: { dx: 1, dy: 0 },
       nextDir: { dx: 1, dy: 0 },
       food: null,
-      score: 0,
-      lives: 0
+      score: 0
     };
     state.food = randomFood();
     tickAccum = 0;
@@ -105,9 +104,6 @@
     if (input.isDown('ArrowLeft') || input.isDown('a') || input.isDown('A')) tryDir(-1, 0);
     if (input.isDown('ArrowRight') || input.isDown('d') || input.isDown('D')) tryDir(1, 0);
 
-    if (input.isDown('p') || input.isDown('P')) {
-      if (!paused) { paused = true; loop.pause(); showOverlay('PAUSED', 'PRESS P TO RESUME', ''); }
-    }
     if (paused) return;
 
     // Tick-based movement
@@ -185,12 +181,10 @@
 
   btnStart.addEventListener('click', startGame);
 
-  // Resume on P key
   document.addEventListener('keydown', function(e) {
-    if ((e.key === 'p' || e.key === 'P') && paused) {
-      paused = false;
-      hideOverlay();
-      loop.resume();
+    if ((e.key === 'p' || e.key === 'P') && gameActive) {
+      if (!paused) { paused = true; loop.pause(); showOverlay('PAUSED', 'PRESS P TO RESUME', ''); }
+      else { paused = false; hideOverlay(); loop.resume(); }
     }
     if ((e.key === 'Enter' || e.key === ' ') && !gameActive) {
       startGame();

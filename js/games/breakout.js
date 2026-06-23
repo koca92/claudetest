@@ -49,7 +49,7 @@
   function init() {
     state = {
       paddle: { x: W / 2 - PADDLE_W / 2, y: PADDLE_Y },
-      ball: { x: W / 2, y: PADDLE_Y - 20, vx: 3.5, vy: -4 },
+      ball: { x: W / 2, y: PADDLE_Y - 20, vx: 3.5 * (Math.random() > 0.5 ? 1 : -1), vy: -4 },
       bricks: makeBricks(),
       score: 0,
       lives: 3,
@@ -81,8 +81,8 @@
   }
 
   function startGame() {
+    init();
     gameActive = true;
-    state.launched = false;
     hideOverlay();
     loop.start();
   }
@@ -101,6 +101,7 @@
     state.ball = { x: W / 2, y: PADDLE_Y - 20, vx: 3.5 * (Math.random() > 0.5 ? 1 : -1), vy: -4 };
     state.launched = false;
     state.paddle.x = W / 2 - PADDLE_W / 2;
+    mousePaddleX = null;
   }
 
   function gameOver() {
@@ -176,6 +177,7 @@
         b.x >= p.x && b.x <= p.x + PADDLE_W) {
       var hitPos = (b.x - (p.x + PADDLE_W / 2)) / (PADDLE_W / 2);
       b.vx = hitPos * 5;
+      if (Math.abs(b.vx) < 0.5) b.vx = b.vx >= 0 ? 0.5 : -0.5;
       b.vy = -Math.abs(b.vy);
       var speed2 = Math.sqrt(b.vx * b.vx + b.vy * b.vy);
       var maxSpeed = 7;
@@ -210,11 +212,10 @@
         var minOvY = Math.min(overlapT, overlapB);
         if (minOvX < minOvY) b.vx = -b.vx;
         else b.vy = -b.vy;
+        if (state.bricks.every(function(b2) { return !b2.alive; })) { winGame(); return; }
         break;
       }
     }
-
-    if (allDead) { winGame(); return; }
   }
 
   function render() {
