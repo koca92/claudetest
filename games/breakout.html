@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>BREAKOUT — Retro Arcade</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/game.css">
+  <style>
+    :root { --canvas-max-w: 480px; }
+  </style>
+</head>
+<body>
+  <header class="game-header">
+    <a href="../index.html" class="back-btn">&#8592; MENU</a>
+    <span class="game-title-bar">BREAKOUT</span>
+    <div class="score-display">
+      <span><span class="label">SCORE </span><span class="value" id="score">0</span></span>
+      <span><span class="label">BEST </span><span class="value" id="highscore">0</span></span>
+      <span><span class="label">LIVES </span><span class="value" id="lives">&#9829;&#9829;&#9829;</span></span>
+    </div>
+  </header>
+
+  <main class="game-main">
+    <div class="canvas-wrapper">
+      <div id="overlay" class="overlay">
+        <h1 id="overlay-title" class="overlay-title">BREAKOUT</h1>
+        <p id="overlay-msg" class="overlay-msg">MOVE MOUSE/FINGER TO AIM</p>
+        <p id="overlay-score" class="overlay-score"></p>
+        <div class="overlay-btns">
+          <button id="btn-start" class="btn-pixel">START</button>
+          <a href="../index.html" class="btn-pixel">MENU</a>
+        </div>
+      </div>
+      <canvas id="game-canvas"></canvas>
+    </div>
+  </main>
+
+  <div class="mobile-controls" id="mobile-controls">
+    <p class="touch-hint">DRAG FINGER ON CANVAS TO MOVE PADDLE<br>TAP CANVAS TO LAUNCH BALL</p>
+  </div>
+
+  <script src="../js/utils.js"></script>
+  <script src="../js/games/breakout.js"></script>
+</body>
+</html>

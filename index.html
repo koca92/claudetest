@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="description" content="Classic retro arcade games playable in your browser on any device.">
+  <title>RETRO ARCADE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/hub.css">
+  <style>
+    body { padding-bottom: 2rem; }
+  </style>
+</head>
+<body>
+  <header class="hub-header">
+    <h1>RETRO <span>ARCADE</span><span class="cursor">_</span></h1>
+    <p class="hub-subtitle">5 CLASSIC GAMES &bull; KEYBOARD &amp; TOUCH CONTROLS</p>
+  </header>
+
+  <main class="hub-grid">
+    <a href="games/snake.html" class="game-card">
+      <canvas class="card-preview" id="preview-snake" width="200" height="200"></canvas>
+      <h2 class="card-title">SNAKE</h2>
+      <p class="card-desc">Eat food, grow longer.<br>Avoid hitting yourself!</p>
+      <span class="btn-play">INSERT COIN</span>
+    </a>
+
+    <a href="games/breakout.html" class="game-card">
+      <canvas class="card-preview" id="preview-breakout" width="200" height="200"></canvas>
+      <h2 class="card-title">BREAKOUT</h2>
+      <p class="card-desc">Destroy all bricks.<br>Don't let the ball fall!</p>
+      <span class="btn-play">INSERT COIN</span>
+    </a>
+
+    <a href="games/pong.html" class="game-card">
+      <canvas class="card-preview" id="preview-pong" width="200" height="200"></canvas>
+      <h2 class="card-title">PONG</h2>
+      <p class="card-desc">Beat the AI opponent.<br>First to 7 wins!</p>
+      <span class="btn-play">INSERT COIN</span>
+    </a>
+
+    <a href="games/tetris.html" class="game-card">
+      <canvas class="card-preview" id="preview-tetris" width="200" height="200"></canvas>
+      <h2 class="card-title">TETRIS</h2>
+      <p class="card-desc">Clear lines to survive.<br>Speed increases!</p>
+      <span class="btn-play">INSERT COIN</span>
+    </a>
+
+    <a href="games/spaceinvaders.html" class="game-card">
+      <canvas class="card-preview" id="preview-space" width="200" height="200"></canvas>
+      <h2 class="card-title">SPACE INVADERS</h2>
+      <p class="card-desc">Defend Earth from aliens.<br>Survive each wave!</p>
+      <span class="btn-play">INSERT COIN</span>
+    </a>
+  </main>
+
+  <footer class="hub-footer">
+    USE ARROW KEYS OR TOUCH &bull; P TO PAUSE &bull; &copy; 2026 RETRO ARCADE
+  </footer>
+
+  <script>
+    // Draw thumbnail previews for each game card
+    function drawSnakePreview(canvas) {
+      var ctx = canvas.getContext('2d');
+      var W = canvas.width, H = canvas.height;
+      ctx.fillStyle = '#0a0a0a'; ctx.fillRect(0,0,W,H);
+      var cell = 10;
+      // Grid
+      ctx.strokeStyle = 'rgba(57,255,20,0.07)'; ctx.lineWidth = 0.5;
+      for (var i = 0; i <= 20; i++) {
+        ctx.beginPath(); ctx.moveTo(i*cell,0); ctx.lineTo(i*cell,H); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(0,i*cell); ctx.lineTo(W,i*cell); ctx.stroke();
+      }
+      // Snake
+      var body = [{x:10,y:10},{x:9,y:10},{x:8,y:10},{x:7,y:10},{x:7,y:11},{x:7,y:12}];
+      body.forEach(function(s, i) {
+        ctx.fillStyle = i===0 ? '#ffffff' : '#39ff14';
+        ctx.shadowColor = i===0 ? '#ffffff' : '#39ff14';
+        ctx.shadowBlur = i===0 ? 10 : 5;
+        ctx.fillRect(s.x*cell+1, s.y*cell+1, cell-2, cell-2);
+      });
+      ctx.shadowBlur = 0;
+      // Food
+      ctx.fillStyle = '#ff6b35'; ctx.shadowColor = '#ff6b35'; ctx.shadowBlur = 8;
+      ctx.fillRect(13*cell+2, 8*cell+2, cell-4, cell-4);
+      ctx.shadowBlur = 0;
+    }
+
+    function drawBreakoutPreview(canvas) {
+      var ctx = canvas.getContext('2d');
+      var W = canvas.width, H = canvas.height;
+      ctx.fillStyle = '#0a0a0a'; ctx.fillRect(0,0,W,H);
+      var colors = ['#ff2255','#ff6b35','#ffd700','#39ff14','#00d4ff'];
+      for (var r = 0; r < 5; r++) {
+        for (var c = 0; c < 5; c++) {
+          ctx.fillStyle = colors[r];
+          ctx.shadowColor = colors[r]; ctx.shadowBlur = 4;
+          ctx.fillRect(10 + c*38, 20 + r*22, 34, 18);
+        }
+      }
+      ctx.shadowBlur = 0;
+      // Paddle
+      ctx.fillStyle = '#00d4ff'; ctx.shadowColor = '#00d4ff'; ctx.shadowBlur = 8;
+      ctx.fillRect(60, 175, 80, 10);
+      ctx.shadowBlur = 0;
+      // Ball
+      ctx.beginPath(); ctx.arc(110, 160, 6, 0, Math.PI*2);
+      ctx.fillStyle = '#ffffff'; ctx.shadowColor = '#ffffff'; ctx.shadowBlur = 10;
+      ctx.fill(); ctx.shadowBlur = 0;
+    }
+
+    function drawPongPreview(canvas) {
+      var ctx = canvas.getContext('2d');
+      var W = canvas.width, H = canvas.height;
+      ctx.fillStyle = '#0a0a0a'; ctx.fillRect(0,0,W,H);
+      // Center line
+      ctx.strokeStyle = 'rgba(57,255,20,0.3)'; ctx.lineWidth = 2; ctx.setLineDash([8,8]);
+      ctx.beginPath(); ctx.moveTo(W/2,0); ctx.lineTo(W/2,H); ctx.stroke(); ctx.setLineDash([]);
+      // Scores
+      ctx.font = '20px "Press Start 2P", monospace';
+      ctx.fillStyle = 'rgba(57,255,20,0.4)'; ctx.textAlign = 'center';
+      ctx.fillText('3', W/4, 35); ctx.fillText('5', W*3/4, 35);
+      // Paddles
+      ctx.fillStyle = '#39ff14'; ctx.shadowColor = '#39ff14'; ctx.shadowBlur = 10;
+      ctx.fillRect(12, H/2-30, 10, 60);
+      ctx.fillStyle = '#ff2255'; ctx.shadowColor = '#ff2255';
+      ctx.fillRect(W-22, H/2-10, 10, 60);
+      ctx.shadowBlur = 0;
+      // Ball
+      ctx.fillStyle = '#ffffff'; ctx.shadowColor = '#ffffff'; ctx.shadowBlur = 12;
+      ctx.fillRect(W/2+20, H/2-5, 10, 10);
+      ctx.shadowBlur = 0;
+    }
+
+    function drawTetrisPreview(canvas) {
+      var ctx = canvas.getContext('2d');
+      var W = canvas.width, H = canvas.height;
+      ctx.fillStyle = '#0a0a0a'; ctx.fillRect(0,0,W,H);
+      var cell = 20;
+      var board = [
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,'#a855f7','#a855f7','#a855f7',0,0,0,0],
+        [0,0,0,0,'#a855f7',0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        ['#ff2255','#ff2255',0,0,0,0,'#39ff14','#39ff14',0,0],
+        ['#ff2255',0,'#ff6b35','#ff6b35','#ff6b35','#ff6b35',0,'#39ff14',0,0],
+        [0,0,'#ff6b35',0,'#00d4ff','#00d4ff','#00d4ff','#00d4ff',0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        ['#ffd700','#ffd700',0,'#ff2255',0,'#ff6b35',0,'#a855f7','#a855f7',0],
+        ['#ffd700','#ffd700','#ff2255','#ff2255','#ff6b35','#ff6b35',0,0,'#a855f7',0]
+      ];
+      var offsetX = (W - 10*cell) / 2;
+      var offsetY = 0;
+      board.forEach(function(row, r) {
+        row.forEach(function(cell2, c) {
+          if (!cell2) return;
+          ctx.fillStyle = cell2; ctx.shadowColor = cell2; ctx.shadowBlur = 3;
+          ctx.fillRect(offsetX + c*cell + 1, offsetY + r*cell + 1, cell-2, cell-2);
+        });
+      });
+      ctx.shadowBlur = 0;
+    }
+
+    function drawSpacePreview(canvas) {
+      var ctx = canvas.getContext('2d');
+      var W = canvas.width, H = canvas.height;
+      ctx.fillStyle = '#0a0a0a'; ctx.fillRect(0,0,W,H);
+      // Invaders (simplified)
+      var colors = ['#ff2255','#ff6b35','#ffd700'];
+      for (var r = 0; r < 3; r++) {
+        for (var c = 0; c < 5; c++) {
+          ctx.fillStyle = colors[r]; ctx.shadowColor = colors[r]; ctx.shadowBlur = 5;
+          var x = 20 + c*36, y = 20 + r*30;
+          ctx.fillRect(x+4, y+2, 24, 16);
+          ctx.fillRect(x+2, y+8, 6, 10);
+          ctx.fillRect(x+24, y+8, 6, 10);
+          ctx.fillRect(x+10, y, 12, 5);
+        }
+      }
+      ctx.shadowBlur = 0;
+      // Player
+      ctx.fillStyle = '#39ff14'; ctx.shadowColor = '#39ff14'; ctx.shadowBlur = 8;
+      ctx.fillRect(82, 162, 36, 14);
+      ctx.fillRect(96, 155, 8, 10);
+      ctx.shadowBlur = 0;
+      // Bullet
+      ctx.fillStyle = '#ffffff'; ctx.shadowColor = '#ffffff'; ctx.shadowBlur = 6;
+      ctx.fillRect(99, 130, 3, 20);
+      ctx.shadowBlur = 0;
+    }
+
+    drawSnakePreview(document.getElementById('preview-snake'));
+    drawBreakoutPreview(document.getElementById('preview-breakout'));
+    drawPongPreview(document.getElementById('preview-pong'));
+    drawTetrisPreview(document.getElementById('preview-tetris'));
+    drawSpacePreview(document.getElementById('preview-space'));
+  </script>
+</body>
+</html>
