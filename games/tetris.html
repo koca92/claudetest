@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>TETRIS — Retro Arcade</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/game.css">
+  <style>
+    :root { --canvas-max-w: 300px; }
+    .tetris-layout {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .tetris-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      min-width: 100px;
+    }
+    .sidebar-label {
+      font-size: 0.4rem;
+      color: var(--color-text);
+      opacity: 0.6;
+      letter-spacing: 0.08em;
+    }
+    .sidebar-value {
+      font-size: 0.6rem;
+      color: var(--color-accent);
+      text-shadow: 0 0 5px var(--color-accent);
+    }
+    #next-canvas {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      border: 1px solid rgba(57,255,20,0.3);
+      display: block;
+    }
+    @media (max-width: 480px) {
+      .tetris-sidebar { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="game-header">
+    <a href="../index.html" class="back-btn">&#8592; MENU</a>
+    <span class="game-title-bar">TETRIS</span>
+    <div class="score-display">
+      <span><span class="label">SCORE </span><span class="value" id="score">0</span></span>
+      <span><span class="label">BEST </span><span class="value" id="highscore">0</span></span>
+      <span><span class="label">LVL </span><span class="value" id="level">1</span></span>
+      <span><span class="label">LINES </span><span class="value" id="lines">0</span></span>
+    </div>
+  </header>
+
+  <main class="game-main">
+    <div class="tetris-layout">
+      <div class="canvas-wrapper">
+        <div id="overlay" class="overlay">
+          <h1 id="overlay-title" class="overlay-title">TETRIS</h1>
+          <p id="overlay-msg" class="overlay-msg">ARROWS TO MOVE<br>UP/X TO ROTATE<br>SPACE = HARD DROP</p>
+          <p id="overlay-score" class="overlay-score"></p>
+          <div class="overlay-btns">
+            <button id="btn-start" class="btn-pixel">START</button>
+            <a href="../index.html" class="btn-pixel">MENU</a>
+          </div>
+        </div>
+        <canvas id="game-canvas"></canvas>
+      </div>
+      <div class="tetris-sidebar">
+        <div>
+          <p class="sidebar-label">NEXT</p>
+          <canvas id="next-canvas" width="120" height="120"></canvas>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="mobile-controls" id="mobile-controls">
+    <div class="action-btns">
+      <button class="action-btn" id="btn-left">&#8592;</button>
+      <button class="action-btn" id="btn-rotate">ROT</button>
+      <button class="action-btn" id="btn-right">&#8594;</button>
+      <button class="action-btn" id="btn-down">&#8595;</button>
+    </div>
+    <p class="touch-hint">SWIPE ON CANVAS &bull; TAP TO ROTATE</p>
+  </div>
+
+  <script src="../js/utils.js"></script>
+  <script src="../js/games/tetris.js"></script>
+</body>
+</html>

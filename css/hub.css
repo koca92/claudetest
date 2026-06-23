@@ -1,0 +1,127 @@
+.hub-header {
+  text-align: center;
+  padding: 2.5rem 1rem 1.5rem;
+  animation: flicker 8s infinite;
+}
+
+.hub-header h1 {
+  font-size: clamp(1rem, 4vw, 2rem);
+  color: var(--color-primary);
+  text-shadow: 0 0 10px var(--color-primary), 0 0 30px var(--color-primary);
+  letter-spacing: 0.1em;
+  line-height: 1.4;
+}
+
+.hub-header h1 span {
+  color: var(--color-accent);
+  text-shadow: 0 0 10px var(--color-accent), 0 0 30px var(--color-accent);
+}
+
+.cursor {
+  display: inline-block;
+  animation: blink 0.8s step-end infinite;
+  color: var(--color-primary);
+}
+
+.hub-subtitle {
+  font-size: 0.45rem;
+  color: var(--color-text);
+  margin-top: 0.8rem;
+  letter-spacing: 0.15em;
+  opacity: 0.7;
+}
+
+.hub-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem 3rem;
+}
+
+.game-card {
+  background: var(--color-ui-dim);
+  border: 2px solid var(--color-primary);
+  box-shadow: 0 0 8px rgba(57, 255, 20, 0.4), inset 0 0 30px rgba(57, 255, 20, 0.03);
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  transition: box-shadow 0.2s, transform 0.1s;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.game-card:hover {
+  box-shadow: 0 0 20px var(--color-primary), 0 0 40px rgba(57, 255, 20, 0.3);
+  transform: translateY(-2px);
+  color: inherit;
+}
+
+.card-preview {
+  width: 200px;
+  height: 200px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  border: 1px solid rgba(57, 255, 20, 0.3);
+  display: block;
+}
+
+.card-title {
+  font-size: 0.65rem;
+  color: var(--color-primary);
+  text-shadow: 0 0 6px var(--color-primary);
+  letter-spacing: 0.1em;
+  text-align: center;
+}
+
+.card-desc {
+  font-size: 0.4rem;
+  color: var(--color-text);
+  opacity: 0.7;
+  text-align: center;
+  line-height: 1.8;
+  letter-spacing: 0.05em;
+}
+
+.btn-play {
+  display: inline-block;
+  font-family: var(--font-retro);
+  font-size: 0.55rem;
+  background: transparent;
+  color: var(--color-accent);
+  border: 2px solid var(--color-accent);
+  padding: 0.5rem 1rem;
+  letter-spacing: 0.1em;
+  transition: background 0.1s, color 0.1s;
+  touch-action: manipulation;
+  margin-top: 0.3rem;
+}
+
+.game-card:hover .btn-play {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+.hub-footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.4rem;
+  color: var(--color-text);
+  opacity: 0.4;
+  letter-spacing: 0.1em;
+  border-top: 1px solid rgba(57, 255, 20, 0.15);
+}
+
+@media (max-width: 320px) {
+  .hub-grid {
+    grid-template-columns: 1fr;
+    padding: 0.5rem;
+  }
+  .hub-header h1 {
+    font-size: 0.8rem;
+  }
+}
