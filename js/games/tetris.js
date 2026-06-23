@@ -55,6 +55,20 @@
     return false;
   }
 
+  var actionRepeat = {};
+  function keyHeldAction(action, delay, interval) {
+    if (!actionRepeat[action]) actionRepeat[action] = { time: 0, fired: false };
+    var kr = actionRepeat[action];
+    if (input.isAction(action)) {
+      kr.time += 16;
+      if (!kr.fired) { kr.fired = true; kr.time = 0; return true; }
+      if (kr.time >= delay) { if ((kr.time - delay) % interval < 16) return true; }
+    } else {
+      kr.fired = false; kr.time = 0;
+    }
+    return false;
+  }
+
   function randomPiece() {
     var key = PIECE_KEYS[Math.floor(Math.random() * PIECE_KEYS.length)];
     return { type: key, rot: 0, x: 3, y: 0 };
@@ -213,6 +227,7 @@
     if (swipe === 'left') { if (isValid(state.current, -1, 0)) state.current.x--; }
     else if (swipe === 'right') { if (isValid(state.current, 1, 0)) state.current.x++; }
     else if (swipe === 'down') { if (isValid(state.current, 0, 1)) state.current.y++; }
+    else if (swipe === 'up') { hardDrop(); }
     else if (swipe === 'tap') {
       var newRot = (state.current.rot + 1) % 4;
       if (isValid(state.current, 0, 0, newRot)) state.current.rot = newRot;
@@ -220,10 +235,10 @@
       else if (isValid(state.current, -1, 0, newRot)) { state.current.x--; state.current.rot = newRot; }
     }
 
-    // Button inputs
-    if (input.consumeAction('left') && isValid(state.current, -1, 0)) state.current.x--;
-    if (input.consumeAction('right') && isValid(state.current, 1, 0)) state.current.x++;
-    if (input.consumeAction('down') && isValid(state.current, 0, 1)) state.current.y++;
+    // Button inputs (with DAS for held buttons)
+    if (keyHeldAction('left', 150, 50) && isValid(state.current, -1, 0)) state.current.x--;
+    if (keyHeldAction('right', 150, 50) && isValid(state.current, 1, 0)) state.current.x++;
+    if (keyHeldAction('down', 100, 50) && isValid(state.current, 0, 1)) state.current.y++;
     var rotatePressed = input.consumeAction('rotate');
     if (rotatePressed) {
       var newRot2 = (state.current.rot + 1) % 4;

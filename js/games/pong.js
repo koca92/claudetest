@@ -127,7 +127,7 @@
         b.y >= p.y && b.y <= p.y + PAD_H) {
       b.x = p.x + PAD_W + BALL_SIZE / 2;
       var hit = (b.y - (p.y + PAD_H / 2)) / (PAD_H / 2);
-      var speed = Math.sqrt(b.vx * b.vx + b.vy * b.vy) + 0.2;
+      var speed = Math.min(Math.sqrt(b.vx * b.vx + b.vy * b.vy) + 0.2, 12);
       var angle = hit * 0.8;
       b.vx = Math.cos(angle) * speed;
       b.vy = Math.sin(angle) * speed;
@@ -140,7 +140,7 @@
         b.y >= ai.y && b.y <= ai.y + PAD_H) {
       b.x = ai.x - BALL_SIZE / 2;
       var hit2 = (b.y - (ai.y + PAD_H / 2)) / (PAD_H / 2);
-      var speed2 = Math.sqrt(b.vx * b.vx + b.vy * b.vy) + 0.2;
+      var speed2 = Math.min(Math.sqrt(b.vx * b.vx + b.vy * b.vy) + 0.2, 12);
       var angle2 = Math.PI - hit2 * 0.8;
       b.vx = Math.cos(angle2) * speed2;
       b.vy = Math.sin(angle2) * speed2;
